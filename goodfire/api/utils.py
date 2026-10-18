@@ -1,3 +1,4 @@
+import asyncio
 import time
 from typing import Any, AsyncIterator, Iterator, Optional
 
@@ -129,7 +130,7 @@ class AsyncHTTPWrapper:
             except RateLimitException:
                 if _attempt_num < self.max_retries:
                     self._rate_limit_warning()
-                    time.sleep(self.inital_backoff_time**_attempt_num)
+                    await asyncio.sleep(self.inital_backoff_time**_attempt_num)
                     return await self.get(
                         url, headers, params, _attempt_num + 1, timeout=timeout
                     )
@@ -155,7 +156,7 @@ class AsyncHTTPWrapper:
             except RateLimitException:
                 if _attempt_num < self.max_retries:
                     self._rate_limit_warning()
-                    time.sleep(self.inital_backoff_time ** (_attempt_num + 1))
+                    await asyncio.sleep(self.inital_backoff_time ** (_attempt_num + 1))
                     return await self.post(
                         url, headers, json, _attempt_num + 1, timeout=timeout
                     )
@@ -181,7 +182,7 @@ class AsyncHTTPWrapper:
             except RateLimitException:
                 if _attempt_num < self.max_retries:
                     self._rate_limit_warning()
-                    time.sleep(self.inital_backoff_time**_attempt_num)
+                    await asyncio.sleep(self.inital_backoff_time**_attempt_num)
                     return await self.put(
                         url, headers, json, _attempt_num + 1, timeout=timeout
                     )
@@ -204,7 +205,7 @@ class AsyncHTTPWrapper:
             except RateLimitException:
                 if _attempt_num < self.max_retries:
                     self._rate_limit_warning()
-                    time.sleep(self.inital_backoff_time**_attempt_num)
+                    await asyncio.sleep(self.inital_backoff_time**_attempt_num)
                     return await self.delete(
                         url, headers, _attempt_num + 1, timeout=timeout
                     )
